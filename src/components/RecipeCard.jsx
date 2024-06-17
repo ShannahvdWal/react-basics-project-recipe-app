@@ -8,17 +8,27 @@ import {
   CardFooter,
   Center,
   Tag,
+  useDisclosure,
+  Button,
 } from "@chakra-ui/react";
 import { CautionWarnings } from "./CautionsWarnings";
 import { CautionSafe } from "./CautionSafe";
+import { RecipePage } from "../pages/RecipePage";
 
 export const RecipeCard = ({ item }) => {
   const hasWarnings = item.recipe.cautions.length > 0;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleClick = () => {
+    onOpen();
+  };
+
   return (
     <>
       <Card bg="white">
         <CardBody>
           <Image
+            onClick={handleClick}
             w="full"
             h="25em"
             objectFit="cover"
@@ -26,9 +36,10 @@ export const RecipeCard = ({ item }) => {
             borderRadius="lg"
           />
           <Stack mt="6" spacing="3">
-            <Heading align="center" size="lg">
+            <Heading onClick={handleClick} align="center" size="lg">
               {item.recipe.label}
             </Heading>
+            <RecipePage item={item}></RecipePage>
             <Center>
               <p>
                 {item.recipe.mealType} | {item.recipe.dishType}
@@ -42,8 +53,6 @@ export const RecipeCard = ({ item }) => {
                   </Tag>
                 );
               })}
-            </Center>
-            <Center>
               {item.recipe.healthLabels
                 .filter((item) => {
                   return item.includes("Vegetarian") || item.includes("Vegan");
@@ -62,6 +71,9 @@ export const RecipeCard = ({ item }) => {
                   );
                 })}
             </Center>
+            <Button onClick={handleClick} w="80%">
+              View full recipe
+            </Button>
           </Stack>
         </CardBody>
         <Divider />
@@ -73,6 +85,8 @@ export const RecipeCard = ({ item }) => {
           </Center>
         </CardFooter>
       </Card>
+
+      <RecipePage item={item} onClose={onClose} isOpen={isOpen} />
     </>
   );
 };
