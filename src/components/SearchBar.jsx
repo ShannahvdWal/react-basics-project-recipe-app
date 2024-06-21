@@ -13,6 +13,7 @@ export const SearchBar = ({ setQuery }) => {
         w="80%"
         marginBlock="4"
         padding="4"
+        marginBlockEnd="8"
       />
     </Center>
   );

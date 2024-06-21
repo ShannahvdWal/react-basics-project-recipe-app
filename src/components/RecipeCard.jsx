@@ -48,7 +48,14 @@ export const RecipeCard = ({ item }) => {
             <Center>
               {item.recipe.dietLabels.map((item) => {
                 return (
-                  <Tag paddingBlock="2" margin="1" size="md" key={item}>
+                  <Tag
+                    bg="yellow.400"
+                    color="white"
+                    paddingBlock="2"
+                    margin="1"
+                    size="md"
+                    key={item}
+                  >
                     {item}
                   </Tag>
                 );
@@ -60,7 +67,8 @@ export const RecipeCard = ({ item }) => {
                 .map((item) => {
                   return (
                     <Tag
-                      bg="green.100"
+                      bg="green.400"
+                      color="white"
                       paddingBlock="2"
                       margin="1"
                       size="md"
@@ -71,18 +79,19 @@ export const RecipeCard = ({ item }) => {
                   );
                 })}
             </Center>
-            <Button onClick={handleClick} w="80%">
-              View full recipe
-            </Button>
-          </Stack>
-        </CardBody>
-        <Divider />
-        <CardFooter>
-          <Center>
+            <Center>
             <div>
               {hasWarnings ? <CautionWarnings item={item} /> : <CautionSafe />}
             </div>
           </Center>
+          </Stack>
+        </CardBody>
+        <Divider />
+        <CardFooter>
+          <Button w="100%" bg="blue.300"
+                  color="white" onClick={handleClick}>
+              View full recipe
+            </Button>
         </CardFooter>
       </Card>
 

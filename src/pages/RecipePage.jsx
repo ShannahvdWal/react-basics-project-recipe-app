@@ -3,78 +3,51 @@ import {
   Button,
   Center,
   Flex,
-  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  Heading,
   ModalOverlay,
-  Tag,
-
 } from "@chakra-ui/react";
+import { WarningLabels } from "../components/WarningLabels";
+import { CautionSafe } from "../components/CautionSafe";
+import { DietLabels } from "../components/DietLabels";
+import { NoDiets } from "../components/NoDiets";
+import { Image, Tag } from "../components/ui/RecipePageStyling";
+import { RecipeCardInfoLeft } from "../components/RecipeCardInfoLeft";
 
 export function RecipePage({ item, onClose, isOpen }) {
+  const hasWarnings = item.recipe.cautions.length > 0;
+  const hasDiets = item.recipe.dietLabels.length > 0;
+
   return (
     <>
-
       <Modal onClose={onClose} size={"full"} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent bg="blue.100">
           <Center>
             <Box p="4" bg="white" w="80%" h="100%">
-              <ModalCloseButton />
+              <ModalCloseButton color="white" />
               <ModalBody>
-                <Image
-                  w="full"
-                  h="25em"
-                  objectFit="cover"
-                  src={item.recipe.image}
-                  borderRadius="lg"
-                  mb="4"
-                />
-
-                <Flex wrap="wrap">
+                <Image src={item.recipe.image} />
+                <Flex wrap="wrap" gap="10">
                   <Box flex="1">
-                    <Heading mb="5">{item.recipe.label}</Heading>
-                    <p>
-                      <b>Meal type:</b> {item.recipe.mealType}
-                    </p>
-                    <p>
-                      <b>Dish type:</b> {item.recipe.dishType}
-                    </p>
-                    <p>
-                      <b>Total cooking time:</b> {item.recipe.totalTime}
-                    </p>
-                    <p>
-                      <b>Servings:</b> {item.recipe.yield}
-                    </p>
+                    <RecipeCardInfoLeft item={item} />
                   </Box>
                   <Box flex="1">
+                    <p>Cautions:</p>
+                    {hasWarnings ? (
+                      <WarningLabels item={item} />
+                    ) : (
+                      <CautionSafe />
+                    )}
                     <p>Health Labels:</p>
-
                     {item.recipe.healthLabels.map((item) => {
-                      return (
-                        <Tag
-                          bg="green.100"
-                          paddingBlock="2"
-                          margin="1"
-                          size="md"
-                          key={item}
-                        >
-                          {item}
-                        </Tag>
-                      );
+                      return <Tag key={item}>{item}</Tag>;
                     })}
                     <p>Diet:</p>
-                    {item.recipe.dietLabels.map((item) => {
-                      return (
-                        <Tag paddingBlock="2" margin="1" size="md" key={item}>
-                          {item}
-                        </Tag>
-                      );
-                    })}
+                    {hasDiets ? <DietLabels item={item} /> : <NoDiets />}
                   </Box>
                 </Flex>
               </ModalBody>
